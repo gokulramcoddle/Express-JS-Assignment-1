@@ -1,12 +1,13 @@
-const { log } = require('console');
 const express = require('express');
 // creating express server router
 const router = express.Router();
 const app = express();
 
 //middleware with express
-app.use(express.urlencoded({extended : true}));
 app.use(express.json());
+app.use(express.urlencoded({extended : true}));
+const api = require('./api');
+app.use('/apidata', api);
 
 router.get('/user',(req,res)=>{
     //express application with html
@@ -44,4 +45,6 @@ router.use((req,res)=>{
 })
 
 app.use(router)
-app.listen(2002);
+app.listen(2002,()=>{
+    console.log("Server running on port : 2002");
+});
