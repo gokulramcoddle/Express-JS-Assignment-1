@@ -6,8 +6,11 @@ const app = express();
 //middleware with express
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
-const api = require('./api');
+const api = require('./api/api.js');
+const middleware = require('./middleware/middleware.js');
+app.use('/',middleware);
 app.use('/apidata', api);
+
 
 router.get('/user',(req,res)=>{
     //express application with html
