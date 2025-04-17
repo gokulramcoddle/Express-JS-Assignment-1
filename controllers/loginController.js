@@ -20,8 +20,8 @@ const loginUser = async(req,res) => {
         return res.json({message : "Invalid credentials"})
     }
     
-    const token = await jwt.sign(
-        { userID : user.userID, email : user.email, password : user.password },'mysecret',
+    const token = jwt.sign(
+        { userID : user.userID, email : user.email },'mysecret',
         { expiresIn : '12h'});
     res.json({message : "Login successfull", Token : token});
 
