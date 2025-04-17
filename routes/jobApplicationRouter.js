@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const tokenVerify = require('../middleware/verifyTokenMiddleware');
 const applicationController = require('../controllers/jobApplicationController');
 
 router.route('/')
-   .get(applicationController.usersApplication)
-   .post(applicationController.postApplication)
-   .put(applicationController.updateJobStatus)
-   .delete(applicationController.deleteApplication)
+   .get(tokenVerify, applicationController.usersApplication)
+   .post(tokenVerify, applicationController.postApplication)
+   .put(tokenVerify, applicationController.updateJobStatus)
+   .delete(tokenVerify, applicationController.deleteApplication)
 
-router.get('/:userID', applicationController.getApplicationById); 
+router.get('/:userID', tokenVerify, applicationController.getApplicationById); 
 
 module.exports = router;
