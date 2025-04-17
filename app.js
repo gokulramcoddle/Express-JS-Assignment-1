@@ -6,7 +6,6 @@ app.use(express.json());
 
 const methodLog = require('./middleware/methodLogMiddleware.js');
 const errorRouter = require('./middleware/errorRouterMiddleware.js');
-const tokenVerify = require('./middleware/verifyTokenMiddleware.js');
 const signupUser = require('./routes/signupRouter.js');
 const loginUser = require('./routes/loginRouter.js');
 const userDetails = require('./routes/userRouter.js');

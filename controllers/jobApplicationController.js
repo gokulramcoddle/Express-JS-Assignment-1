@@ -72,7 +72,6 @@ const getApplicationById = async(req,res) => {
         JOIN jobs j ON a.jobID = j.jobID 
         WHERE a.userID = ?
         ORDER BY a.applieddate desc`, [userID]);
-        console.log("UserID from params:", userID);
       if(exist.length == 0){
         return res.json({message : "Error : User not exist"})
       }
