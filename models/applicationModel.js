@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../config/db');
 
 const usersApplication = async() => {
    const [usersApplication] = await db.query(

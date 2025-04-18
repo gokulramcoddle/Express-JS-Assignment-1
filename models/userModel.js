@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../config/db');
 
 const usersData = async() => {
     const [users] = await db.query('SELECT firstname, lastname, email FROM users');
