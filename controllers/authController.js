@@ -11,15 +11,12 @@ const loginUser = async(req,res) => {
     const userEmail = await userModel.emailExist(email);
     if(userEmail.length === 0){
      return res.status(404).json({message : "User not registered"})
-    }
-    
+    } 
     const user = userEmail[0];
     const isMatch = await bcrypt.compare(password, user.password);
-
     if(!isMatch){
-      return res.status(401).json({error : "Invalid credentials"})
+      return res.status(401).json({error : "Invalid credentials"});
     }
-
     const token = jwt.sign(
         { userID : user.userID, email : user.email },'mysecret',
         { expiresIn : '12h'});
@@ -37,7 +34,7 @@ const signup = async(req,res) => {
     return res.status(400).json({ message: "Error: Field cannot be empty" });
   }
   try {
-    const existEmail = await userModel.emailExist(email, password);
+    const existEmail = await userModel.emailExist(email);
     if(existEmail.length > 0) {
       return res.status(401).json({ message : "Error : emailID already exist, Please Try another"});
     }

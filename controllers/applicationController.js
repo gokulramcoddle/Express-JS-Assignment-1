@@ -68,7 +68,7 @@ const getApplicationById = async(req,res) => {
     const { userID } = req.params;
     try{
      const exist = await applicationModel.applicationById(userID);
-      if(exist.length == 0){
+      if(exist.length === 0){
         return res.status(401).json({message : "Error : User not exist"})
       }
       return res.status(200).json(exist);

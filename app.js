@@ -10,9 +10,11 @@ const methodLog = require('./middleware/methodLogMiddleware.js');
 const errorRouter = require('./middleware/errorRouterMiddleware.js');
 const authUser = require('./routes/authRoutes.js');
 const userDetails = require('./routes/userRoutes.js');
+const jobData = require('./routes/jobRoutes.js');
 const jobApplications = require('./routes/applicationRoutes.js');
 
-app.use('/users', userDetails);
+app.use('/user', userDetails);
+app.use('/job', jobData)
 app.use('/application', jobApplications);
 app.use('/', authUser);
 app.get('/', (req, res) => res.send("WELCOME"));
