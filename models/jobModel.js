@@ -7,6 +7,7 @@ const getJob = async() => {
 
 const getJobByID = async(ID) => {
     const [job] = await db.query('SELECT * FROM jobpost WHERE ID = ?', [ID]);
+    return job;
 }
 
 const jobExist = async(ID) => {
@@ -14,14 +15,14 @@ const jobExist = async(ID) => {
     return existJob;
 }
 
-const postJob = async(jobtitle, salary, location) => {
-    const [addJob] = await db.query('INSERT INTO jobpost (jobtitle, salary, location) VALUES (?, ?, ?)', [jobtitle, salary, location]);
+const postJob = async(jobtitle, company, location, salary) => {
+    const [addJob] = await db.query('INSERT INTO jobpost (jobtitle, company, location, salary) VALUES (?, ?, ?, ?)', [jobtitle, company, location, salary]);
     return addJob;
 }
 
-const updateJob = async(jobtitle, salary, location, ID) => {
-    const [editJob] = await db.query('UPDATE jobpost SET jobtitle = ?, salary = ?, location = ? WHERE ID = ? ',
-          [jobtitle, salary, location, ID]);
+const updateJob = async(jobtitle, company, location, salary, ID) => {
+    const [editJob] = await db.query('UPDATE jobpost SET jobtitle = ?, company= ?, location = ?, salary = ? WHERE ID = ? ',
+          [jobtitle, company, location, salary, ID]);
           return editJob;
 }
 
@@ -32,6 +33,7 @@ const removeJob = async(ID) => {
 
 module.exports = { 
     getJob,
+    getJobByID,
     jobExist,
     postJob,
     updateJob,

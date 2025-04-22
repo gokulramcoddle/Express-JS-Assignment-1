@@ -13,7 +13,7 @@ const fetchJob = async(req,res) => {
 const fetchJobByID = async(req,res) => {
   const {ID} = req.params;
   try{
-    const jobById = await jobModel.jobExist(ID);
+    const jobById = await jobModel.getJobByID(ID);
     if(jobById.length === 0){
       return res.status(401).json({message : "Job not exist"});
     }
@@ -25,12 +25,12 @@ const fetchJobByID = async(req,res) => {
 }
 
 const addJob = async(req,res) => {
-  const { jobtitle, salary, location } = req.body;
+  const { jobtitle, company, location, salary } = req.body;
   try{
-    if(!jobtitle || !salary || !location){
+    if(!jobtitle || !company || !location || !salary){
       return res.status(400).json({message: "Field cannot be empty"});
     }
-    const addJob = await jobModel.postJob(jobtitle, salary, location);
+    const addJob = await jobModel.postJob(jobtitle, company, location, salary);
     console.log(req.body);
     return res.status(200).json({message : "Added Successfully", addJob});
   }
@@ -40,14 +40,14 @@ const addJob = async(req,res) => {
 }
 
 const editJob = async(req,res) => {
-  const { jobtitle, salary, location } = req.body;
+  const { jobtitle, company, location, salary } = req.body;
   const { ID } = req.params;
   try{
    const existJob = await jobModel.jobExist(ID);
    if(existJob.length === 0){
     return res.status(401).json({message : "Enter valid ID"});
    }
-   const jobUpdate = await jobModel.updateJob(jobtitle, salary, location, ID);
+   const jobUpdate = await jobModel.updateJob(jobtitle, company, location, salary, ID);
    return res.status(200).json({message : "Updated successfully", jobUpdate})
   }
   catch(err){

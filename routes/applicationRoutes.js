@@ -7,6 +7,6 @@ router.get('/', tokenVerify, applicationController.usersApplication);
 router.get('/:userID', tokenVerify, applicationController.getApplicationById); 
 router.post('/add', tokenVerify, applicationController.postApplication);
 router.put('/update', tokenVerify, applicationController.updateJobStatus);
-router.delete('/delete/:applicationID', tokenVerify, applicationController.deleteApplication);
+router.delete('/delete/:ID', tokenVerify, applicationController.deleteApplication);
 
 module.exports = router;

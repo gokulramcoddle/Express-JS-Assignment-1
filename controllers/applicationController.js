@@ -1,4 +1,5 @@
 const applicationModel = require('../models/applicationModel');
+const jobModel = require('../models/jobModel');
 const userModel = require('../models/userModel');
 
 const usersApplication = async(req,res) => {
@@ -12,16 +13,17 @@ const usersApplication = async(req,res) => {
 }
 
 const postApplication = async(req,res) => {
-    const { jobID, userID, status } = req.body;
-    if(!jobID || !userID || !status){
+    const {userID, jobpostID} = req.body;
+    if(!userID || !jobpostID){
       return res.status(400).json({Message : "Values cannot be empty"});
     }
   try{
     const userExist = await userModel.userExist(userID);
-     if(userExist.length == 0){
-       return res.status(401).json({message : "Enter valid userID"})
+    const jobExist = await jobModel.jobExist(jobpostID);
+     if(userExist.length === 0 && jobExist.length === 0){
+       return res.status(401).json({message : "Invalid UserID or JobpostID "})
      }
-       const addedApplication = await applicationModel.addApplication(jobID, userID, status);
+       const addedApplication = await applicationModel.addApplication(userID, jobpostID);
        console.log(req.body);
        return res.status(200).json({message : "Application created", Application : addedApplication });
         
@@ -32,14 +34,13 @@ const postApplication = async(req,res) => {
 }
 
 const updateJobStatus = async(req,res) => {
-    const { applicationID } = req.body;
-    const { status } = req.body;
+  const { status, ID } = req.body;
   try{
-    const existApplication = await applicationModel.applicationExist(applicationID);
+    const existApplication = await applicationModel.applicationExist(ID);
     if(existApplication.length === 0){
       return res.status(401).json({message : "Application ID not exist | Enter valid applicationID"})
     }
-    await applicationModel.updateApplication(status, applicationID);
+    await applicationModel.updateApplication(status, ID);
     console.log(req.body);
     return res.status(200).json({message : "Application status updated"});
     
@@ -50,13 +51,13 @@ const updateJobStatus = async(req,res) => {
 }
 
 const deleteApplication = async(req,res) => {
-   const {applicationID } = req.params;
+   const { ID } = req.params;
     try{
-     const existApplication = await applicationModel.applicationExist(applicationID);
+     const existApplication = await applicationModel.applicationExist(ID);
      if(existApplication.length === 0){
         return res.status(401).json({message : "Enter valid applicationID"});
      }
-     const removeApplication = await applicationModel.deleteApplication(applicationID);
+     const removeApplication = await applicationModel.deleteApplication(ID);
      return res.status(200).json({message : "Deleted application sucessfully", removeApplication});
     }
     catch(err){
