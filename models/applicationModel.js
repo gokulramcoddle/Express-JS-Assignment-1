@@ -40,6 +40,12 @@ const applicationExist = async(ID) => {
     return existApplication;
 }
 
+const userApplication = async(userID, jobpostID) => {
+    const [existUserApplication] = await db.query('SELECT * FROM jobpost_application WHERE userID = ? AND jobpostID = ?',
+          [userID, jobpostID]);
+    return existUserApplication;
+}
+
 const deleteApplication = async(ID) => {
     const [removeApplication] = await db.query('DELETE FROM jobpost_application WHERE ID = ?', [ID]);
     return removeApplication;
@@ -52,5 +58,6 @@ module.exports = {
     addApplication,
     updateApplication,
     applicationExist,
+    userApplication,
     deleteApplication
  };

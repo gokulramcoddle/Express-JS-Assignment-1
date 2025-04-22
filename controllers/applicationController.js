@@ -19,9 +19,13 @@ const postApplication = async(req,res) => {
     }
   try{
     const userExist = await userModel.userExist(userID);
-    const jobExist = await jobModel.jobExist(jobpostID);
-     if(userExist.length === 0 && jobExist.length === 0){
-       return res.status(401).json({message : "Invalid UserID or JobpostID "})
+    const existJob = await jobModel.jobExist(jobpostID);
+     if(userExist.length === 0 || existJob.length === 0){
+       return res.status(401).json({message : "Invalid UserID or JobpostID "});
+     }
+    const alreadyApplied = await applicationModel.userApplication(userID, jobpostID);
+     if(alreadyApplied.length > 0){
+      return res.status(401).json({message : "User already applied for the same job"});
      }
        const addedApplication = await applicationModel.addApplication(userID, jobpostID);
        console.log(req.body);
