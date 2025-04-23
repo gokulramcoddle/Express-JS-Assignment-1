@@ -16,7 +16,7 @@ const applicationById = async(userID) => {
         `SELECT a.ID, a.userID, j.jobtitle AS jobTitle, a.status, a.date 
          FROM jobpost_application a 
          JOIN jobpost j ON a.jobpostID = j.ID
-         WHERE a.ID = ?
+         WHERE a.userID = ?
          ORDER BY a.date DESC`, [userID]);
 
       return exist;
