@@ -22,7 +22,7 @@ const loginUser = async(req,res) => {
         process.env.JWT_SECRET,
         { expiresIn : '6h'});
 
-    return res.header('Authorization', 'Bearer '+ token).json({message : "Login successfull",token : token});
+    return res.header('Authorization', 'Bearer '+ token).json({message : "Login successfull", username : user.firstname, token : token});
   }
   catch(err){
     return res.json({error : err.message});

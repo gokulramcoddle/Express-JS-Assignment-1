@@ -13,7 +13,7 @@ const errorRouter = require('./middleware/errorRouterMiddleware.js');
 const authUser = require('./routes/authRoutes.js');
 const userDetails = require('./routes/userRoutes.js');
 const jobData = require('./routes/jobRoutes.js');
-const jobApplications = require('./routes/applicationRoutes.js');
+const jobApplications = require('./routes/userApplicationRoutes.js');
 
 app.use(methodLog);
 app.use('/user', userDetails);

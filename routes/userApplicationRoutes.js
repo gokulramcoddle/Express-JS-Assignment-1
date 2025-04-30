@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const tokenVerify = require('../middleware/verifyTokenMiddleware');
-const applicationController = require('../controllers/applicationController');
+const applicationController = require('../controllers/userApplicationController');
 
 router.get('/', tokenVerify, applicationController.usersApplication);
 router.get('/:userID', tokenVerify, applicationController.getApplicationById); 

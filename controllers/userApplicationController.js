@@ -1,4 +1,4 @@
-const applicationModel = require('../models/applicationModel');
+const applicationModel = require('../models/userApplicationModel');
 const jobModel = require('../models/jobModel');
 const userModel = require('../models/userModel');
 
