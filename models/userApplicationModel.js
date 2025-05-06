@@ -13,41 +13,50 @@ const usersApplication = async() => {
 
 const applicationById = async(userID) => {
     const [exist] = await db.query(
-        `SELECT a.ID, a.userID, j.jobtitle AS jobTitle, a.status, a.date 
-         FROM jobpost_application a 
-         JOIN jobpost j ON a.jobpostID = j.ID
-         WHERE a.userID = ?
-         ORDER BY a.date DESC`, [userID]);
+        `SELECT * FROM user_application a
+         JOIN jobpost j ON j.ID = a.jobpostID
+         WHERE userID = ?`, [userID]);
 
       return exist;
 }
 
-const addApplication = async(userID, jobpostID) => {
-       const [result] = await db.query(
-       `INSERT INTO jobpost_application(userID, jobpostID, status, date)
-        VALUES(?, ?, 'Applied', now())`,[userID, jobpostID]);
-
+const addApplication = async(
+    userID, jobpostID, firstname, lastname,
+    gender, dob, tenth_percentage, twelth_percentage,
+    university_cgpa, skills, experience, about_you, applied_on
+    ) => {
+ const [result] = await db.query(
+      `INSERT INTO user_application( 
+       userID, jobpostID, firstname, lastname,
+       gender, dob, tenth_percentage, twelth_percentage,
+       university_cgpa, skills, experience, about_you, applied_on)
+       VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())`,
+       [userID, jobpostID, firstname, lastname,
+        gender, dob, tenth_percentage, 
+        twelth_percentage,university_cgpa, skills, 
+        experience, about_you, applied_on]
+    );
         return result;
 }
 
 const updateApplication = async(status, ID) => {
-    const [update] = await db.query('UPDATE jobpost_application SET status = ? WHERE ID = ?', [status, ID]);
+    const [update] = await db.query('UPDATE user_application SET status = ? WHERE ID = ?', [status, ID]);
     return update;
 }
 
 const applicationExist = async(ID) => {
-    const [existApplication] = await db.query('SELECT * FROM jobpost_application WHERE ID = ?', [ID]);
+    const [existApplication] = await db.query('SELECT * FROM user_application WHERE ID = ?', [ID]);
     return existApplication;
 }
 
 const userApplication = async(userID, jobpostID) => {
-    const [existUserApplication] = await db.query('SELECT * FROM jobpost_application WHERE userID = ? AND jobpostID = ?',
+    const [existUserApplication] = await db.query('SELECT * FROM user_application WHERE userID = ? AND jobpostID = ?',
           [userID, jobpostID]);
     return existUserApplication;
 }
 
 const deleteApplication = async(ID) => {
-    const [removeApplication] = await db.query('DELETE FROM jobpost_application WHERE ID = ?', [ID]);
+    const [removeApplication] = await db.query('DELETE FROM user_application WHERE ID = ?', [ID]);
     return removeApplication;
 }
 

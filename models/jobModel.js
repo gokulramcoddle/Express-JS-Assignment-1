@@ -10,6 +10,11 @@ const getJobByID = async(ID) => {
     return job;
 }
 
+const getJobByLocation = async(location) => {
+    const [availableJob] = await db.query('SELECT * FROM jobpost WHERE location = ?',[location]);
+    return availableJob; 
+}
+
 const jobExist = async(ID) => {
     const [existJob] = await db.query('SELECT * FROM jobpost WHERE ID = ?', [ID]);
     return existJob;
@@ -34,6 +39,7 @@ const removeJob = async(ID) => {
 module.exports = { 
     getJob,
     getJobByID,
+    getJobByLocation,
     jobExist,
     postJob,
     updateJob,

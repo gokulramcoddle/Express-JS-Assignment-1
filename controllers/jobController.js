@@ -24,6 +24,23 @@ const fetchJobByID = async(req,res) => {
   }
 }
 
+const fetchJobByLocation = async(req,res) => {
+  const {location} = req.body;
+  try{
+    if(!location){
+      return res.status(404).json({message : "Enter valid location" });
+     }
+    const jobByLocation = await jobModel.getJobByLocation(location);
+    if(jobByLocation.length === 0){
+    return res.status(401).json({message : "Job not exist"});
+   }
+   return res.status(200).json(jobByLocation);
+  }
+  catch(err){
+    console.log(err.message);
+  }
+}
+
 const addJob = async(req,res) => {
   const { jobtitle, company, location, salary } = req.body;
   try{
@@ -62,7 +79,6 @@ const deleteJob = async(req,res) => {
     if(existJob.length === 0){
       return res.status(400).json({message : "Enter valid ID"});
     }
-    const jobRemove = await jobModel.removeJob(ID);
     return res.status(200).json({message : "Job deleted successfully", DeletedJob : existJob[0]});
    }
    catch(err){
@@ -73,6 +89,7 @@ const deleteJob = async(req,res) => {
 module.exports = {
    fetchJob,
    fetchJobByID, 
+   fetchJobByLocation,
    addJob, 
    editJob,
    deleteJob

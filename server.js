@@ -4,9 +4,13 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 2002;
 
+app.disable('x-powered-by');
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
-app.use(cors({exposedHeaders : ['Authorization']}))
+app.use(cors({
+    origin : 'http://localhost:3000' ,
+    exposedHeaders : ['Authorization']
+  }));
 
 const methodLog = require('./middleware/methodLogMiddleware.js');
 const errorRouter = require('./middleware/errorRouterMiddleware.js');

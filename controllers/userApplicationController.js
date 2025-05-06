@@ -13,7 +13,13 @@ const usersApplication = async(req,res) => {
 }
 
 const postApplication = async(req,res) => {
-    const {userID, jobpostID} = req.body;
+    const {userID} = req.user;
+    const {jobpostID} = req.params;
+    const { firstname, lastname,
+            gender, dob, tenth_percentage, twelth_percentage,
+            university_cgpa, skills, experience, about_you 
+          } = req.body;
+
     if(!userID || !jobpostID){
       return res.status(400).json({Message : "Values cannot be empty"});
     }
@@ -27,7 +33,11 @@ const postApplication = async(req,res) => {
      if(alreadyApplied.length > 0){
       return res.status(401).json({message : "User already applied for the same job"});
      }
-       const addedApplication = await applicationModel.addApplication(userID, jobpostID);
+       const addedApplication = await applicationModel.addApplication(
+        userID, jobpostID, firstname, lastname,
+        gender, dob, tenth_percentage, twelth_percentage,
+        university_cgpa, skills, experience, about_you
+      );
        console.log(req.body);
        return res.status(200).json({message : "Application created", Application : addedApplication });
         
@@ -70,7 +80,7 @@ const deleteApplication = async(req,res) => {
 }
 
 const getApplicationById = async(req,res) => {
-    const { userID } = req.params;
+  const {userID} = req.user;
     try{
      const exist = await applicationModel.applicationById(userID);
       if(exist.length === 0){
