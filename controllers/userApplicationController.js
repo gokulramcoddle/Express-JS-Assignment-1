@@ -21,7 +21,7 @@ const postApplication = async(req,res) => {
           } = req.body;
 
     if(!userID || !jobpostID){
-      return res.status(400).json({Message : "Values cannot be empty"});
+      return res.status(400).json({message : "Values cannot be empty"});
     }
   try{
     const userExist = await userModel.userExist(userID);
@@ -84,12 +84,12 @@ const getApplicationById = async(req,res) => {
     try{
      const exist = await applicationModel.applicationById(userID);
       if(exist.length === 0){
-        return res.status(401).json({message : "Error : User not exist"})
+        return res.status(401).json({message : "User not exist"})
       }
       return res.status(200).json(exist);
     }
     catch(err){
-      return res.status(500).json({Error : err.message})
+      return res.status(500).json({error : err.message})
     }
   }
 

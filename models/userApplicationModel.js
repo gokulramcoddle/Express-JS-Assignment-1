@@ -1,14 +1,8 @@
 const db = require('../config/db');
 
 const usersApplication = async() => {
-   const [usersApplication] = await db.query(
-        `SELECT a.ID, a.userID, j.jobtitle AS jobTitle, a.status, a.date 
-         FROM jobpost_application a 
-         JOIN jobpost j ON a.jobpostID = j.ID 
-         ORDER BY a.date DESC`
-        );
-
-     return usersApplication;
+   const [usersApplication] = await db.query("SELECT * FROM user_application");
+   return usersApplication;
 }
 
 const applicationById = async(userID) => {
